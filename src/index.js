@@ -59,7 +59,7 @@ var stepThreePartOne = fs.createWriteStream('stepThreePartOne.txt', {
 const stepThreePartA = async () => {
     for (var i = 1; i<=100; i++) {
         try {
-            stepThreePartOne.write(i+': '+ await getRandomWord({withErrors: true}) +'\n');
+            stepThreePartOne.write(i+': '+ await getRandomWord({withErrors: true, slow: true}) +'\n');
         }
         catch {
             stepThreePartOne.write("It shouldn't break anything!\n");
@@ -89,7 +89,7 @@ const stepThreePartB = async () => {
         }
         else {
             try {
-                stepThreePartTwo.write(i+': '+ await getRandomWord({slow: true}) +'\n');
+                stepThreePartTwo.write(i+': '+ await getRandomWord({withErrors: true, slow: true}) +'\n');
             }
             catch {
                 stepThreePartTwo.write("It shouldn't break anything!\n")
