@@ -1,68 +1,102 @@
 const { getRandomWordSync, getRandomWord } = require('word-maker');
 
-// console.log('--- Step 1 ---');
+var fs = require('fs')
 
-// const stepOne = () => {
-//     for (var i = 1; i<=100; i++) {
-//         console.log(i+':', getRandomWordSync());
-//     }
-// }
+// ----- Step 1 -----
 
-// stepOne();
+var step1 = fs.createWriteStream('step1.txt', {
+    flags: 'a'
+})
 
-// console.log('');
-// console.log('--- Step 2 ---');
+const stepOne = () => {
+    for (var i = 1; i<=100; i++) {
+        try{
+            step1.write(i+': '+ getRandomWordSync({withErrors: true}) +'\n');
+        }
+        catch {
+            step1.write("It shouldn't break anything!\n");
+        }
+    }
+    step1.end();
+}
 
-// const stepTwo = () => {
-//     for (var i = 1; i<=100; i++) {
-//         if (i % 3 === 0 && i % 5 !== 0)
-//             console.log(i+': Fizz');
-//         else if (i % 5 === 0 && i % 3 !== 0)
-//             console.log(i+': Buzz');
-//         else if (i % 3 === 0 && i % 5 === 0)
-//             console.log(i+': FizzBuzz')
-//         else
-//             console.log(i+':', getRandomWordSync());
-//     }
-// }
+stepOne();
 
-// stepTwo();
+// ----- Step 2 -----
 
-// console.log('');
-// console.log('--- Step 3 Part 1 ---');
+var step2 = fs.createWriteStream('step2.txt', {
+    flags: 'a'
+})
 
-// const stepThreePartA = async () => {
-//     for (var i = 1; i<=100; i++) {
-//         console.log(i+':',await getRandomWord());
-//     }
-// }
+const stepTwo = () => {
+    for (var i = 1; i<=100; i++) {
+        if (i % 3 === 0 && i % 5 !== 0)
+            step2.write(i+': Fizz\n');
+        else if (i % 5 === 0 && i % 3 !== 0)
+            step2.write(i+': Buzz\n');
+        else if (i % 3 === 0 && i % 5 === 0)
+            step2.write(i+': FizzBuzz\n');
+        else {
+            try {
+                step2.write(i+': '+ getRandomWordSync({withErrors: true}) +'\n');
+            }
+            catch {
+                step2.write("It shouldn't break anything!\n");
+            }
+        }
+    }
+    step2.end();
+}
 
-// stepThreePartA();
+stepTwo();
 
-console.log('');
-console.log('--- Step 3 Part 2 ---');
+//----- Step 3 Part 1 -----
+
+var stepThreePartOne = fs.createWriteStream('stepThreePartOne.txt', {
+    flags: 'a'
+})
+
+const stepThreePartA = async () => {
+    for (var i = 1; i<=100; i++) {
+        try {
+            stepThreePartOne.write(i+': '+ await getRandomWord({withErrors: true}) +'\n');
+        }
+        catch {
+            stepThreePartOne.write("It shouldn't break anything!\n");
+        }
+    }
+    stepThreePartOne.end();
+}
+
+stepThreePartA();
+
+//----- Step 3 Part 2 -----
+
+var stepThreePartTwo = fs.createWriteStream('stepThreePartTwo.txt', {
+  flags: 'a'
+})
 
 const stepThreePartB = async () => {
     for (var i = 1; i<=100; i++) {
-        if (i % 3 === 0 && i % 5 !== 0)
-            console.log(i+': Fizz');
-        else if (i % 5 === 0 && i % 3 !== 0)
-            console.log(i+': Buzz');
-        else if (i % 3 === 0 && i % 5 === 0)
-            console.log(i+': FizzBuzz')
-        else
-            console.log(i+':',await getRandomWord());
+        if (i % 3 === 0 && i % 5 !== 0) {
+            stepThreePartTwo.write(i+': Fizz\n');
+        }
+        else if (i % 5 === 0 && i % 3 !== 0) {
+            stepThreePartTwo.write(i+': Buzz\n');
+        }
+        else if (i % 3 === 0 && i % 5 === 0) {
+            stepThreePartTwo.write(i+': FizzBuzz\n');
+        }
+        else {
+            try {
+                stepThreePartTwo.write(i+': '+ await getRandomWord({slow: true}) +'\n');
+            }
+            catch {
+                stepThreePartTwo.write("It shouldn't break anything!\n")
+            }
+        }
     }
+    stepThreePartTwo.end();
 }
 
 stepThreePartB();
-
-var express = require('express');
-var app = express();
-app.get('/', function(req, res) {
-  res.send('Hello Seattle\n');
-});
-app.listen(8080);
-console.log('Listening on port 8080...');
-
-// YOUR CODE HERE
