@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "random-words": "^1.1.0",
-    "word-maker": "file:word-maker"
+    "word-maker": "file:word-maker",
+    "express": "3.x"
   }
 }
